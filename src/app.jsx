@@ -1,26 +1,24 @@
-import React from 'react';
+import React, {} from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
 
 // Action Creators
-function send(val) {
+function send(value) {
   return {
     type: 'SEND',
-    value: val,
+    value,
   };
 }
 
 // Reducer
 const initialState = {
-  value: 'aaa',
+  value: null,
 };
 
-function formReducer(state = initialState, action) {
+function formReducer(state, action) {
   switch (action.type) {
     case 'SEND':
-      window.console.log(state);
-      window.console.log(action);
       return Object.assign({}, state, {
         value: action.value,
       });
@@ -37,21 +35,26 @@ class FormApp extends React.Component {
   render() {
     return (
       <div>
-        <FormInput />
+        <FormInput handleSendVal={this.props.onClick} />
         <FormDisplay data={this.props.value} />
       </div>
     );
   }
 }
+FormApp.propTypes = {
+  onClick: React.PropTypes.func,
+  value: React.PropTypes.string,
+};
 
 class FormInput extends React.Component {
   _send(e) {
     e.preventDefault();
-    store.dispatch(send(this.refs.myInput.value.trim()));
+    this.props.handleSendVal(this.refs.myInput.value.trim());
     this.refs.myInput.value = '';
     return;
   }
   render() {
+    window.console.log(this.props);
     return (
       <form>
         <input type="text" ref="myInput" defaultValue="" />
@@ -60,6 +63,9 @@ class FormInput extends React.Component {
     );
   }
 }
+FormInput.propTypes = {
+  handleSendVal: React.PropTypes.func,
+};
 
 class FormDisplay extends React.Component {
   render() {
@@ -68,6 +74,9 @@ class FormDisplay extends React.Component {
     );
   }
 }
+FormDisplay.propTypes = {
+  data: React.PropTypes.string,
+};
 
 function mapStateToProps(state) {
   window.console.log(state);
@@ -75,11 +84,21 @@ function mapStateToProps(state) {
     value: state.value,
   };
 }
-FormApp = connect(mapStateToProps)(FormApp);
+function mapDispatchToProps(dispatch) {
+  return {
+    onClick(value) {
+      dispatch(send(value));
+    },
+  };
+}
+const AppContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormApp);
 
 ReactDOM.render(
   <Provider store={store}>
-    <FormApp />
+    <AppContainer />
   </Provider>,
   document.querySelector('.content')
 );

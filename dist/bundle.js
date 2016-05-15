@@ -20977,26 +20977,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // Action Creators
-function send(val) {
+function send(value) {
   return {
     type: 'SEND',
-    value: val
+    value: value
   };
 }
 
 // Reducer
 var initialState = {
-  value: 'aaa'
+  value: null
 };
 
-function formReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-  var action = arguments[1];
-
+function formReducer(state, action) {
   switch (action.type) {
     case 'SEND':
-      window.console.log(state);
-      window.console.log(action);
       return Object.assign({}, state, {
         value: action.value
       });
@@ -21005,6 +21000,7 @@ function formReducer() {
   }
 }
 
+// store
 var store = (0, _redux.createStore)(formReducer, initialState);
 
 // Veiw
@@ -21024,7 +21020,7 @@ var FormApp = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(FormInput, null),
+        _react2.default.createElement(FormInput, { handleSendVal: this.props.onClick }),
         _react2.default.createElement(FormDisplay, { data: this.props.value })
       );
     }
@@ -21032,6 +21028,11 @@ var FormApp = function (_React$Component) {
 
   return FormApp;
 }(_react2.default.Component);
+
+FormApp.propTypes = {
+  onClick: _react2.default.PropTypes.func,
+  value: _react2.default.PropTypes.string
+};
 
 var FormInput = function (_React$Component2) {
   _inherits(FormInput, _React$Component2);
@@ -21046,13 +21047,14 @@ var FormInput = function (_React$Component2) {
     key: '_send',
     value: function _send(e) {
       e.preventDefault();
-      store.dispatch(send(this.refs.myInput.value.trim()));
+      this.props.handleSendVal(this.refs.myInput.value.trim());
       this.refs.myInput.value = '';
       return;
     }
   }, {
     key: 'render',
     value: function render() {
+      window.console.log(this.props);
       return _react2.default.createElement(
         'form',
         null,
@@ -21068,6 +21070,10 @@ var FormInput = function (_React$Component2) {
 
   return FormInput;
 }(_react2.default.Component);
+
+FormInput.propTypes = {
+  handleSendVal: _react2.default.PropTypes.func
+};
 
 var FormDisplay = function (_React$Component3) {
   _inherits(FormDisplay, _React$Component3);
@@ -21092,18 +21098,29 @@ var FormDisplay = function (_React$Component3) {
   return FormDisplay;
 }(_react2.default.Component);
 
+FormDisplay.propTypes = {
+  data: _react2.default.PropTypes.string
+};
+
 function mapStateToProps(state) {
   window.console.log(state);
   return {
     value: state.value
   };
 }
-FormApp = (0, _reactRedux.connect)(mapStateToProps)(FormApp);
+function mapDispatchToProps(dispatch) {
+  return {
+    onClick: function onClick(value) {
+      dispatch(send(value));
+    }
+  };
+}
+var AppContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FormApp);
 
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
-  _react2.default.createElement(FormApp, null)
+  _react2.default.createElement(AppContainer, null)
 ), document.querySelector('.content'));
 
 },{"react":180,"react-dom":35,"react-redux":38,"redux":186}]},{},[190]);
