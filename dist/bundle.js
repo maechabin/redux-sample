@@ -20985,10 +20985,6 @@ function send(value) {
 }
 
 // Reducer
-var initialState = {
-  value: null
-};
-
 function formReducer(state, action) {
   switch (action.type) {
     case 'SEND':
@@ -21000,10 +20996,13 @@ function formReducer(state, action) {
   }
 }
 
-// store
+// Store
+var initialState = {
+  value: null
+};
 var store = (0, _redux.createStore)(formReducer, initialState);
 
-// Veiw
+// Veiw (Container Components)
 
 var FormApp = function (_React$Component) {
   _inherits(FormApp, _React$Component);
@@ -21020,7 +21019,7 @@ var FormApp = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(FormInput, { handleSendVal: this.props.onClick }),
+        _react2.default.createElement(FormInput, { handleClick: this.props.onClick }),
         _react2.default.createElement(FormDisplay, { data: this.props.value })
       );
     }
@@ -21030,9 +21029,11 @@ var FormApp = function (_React$Component) {
 }(_react2.default.Component);
 
 FormApp.propTypes = {
-  onClick: _react2.default.PropTypes.func,
+  onClick: _react2.default.PropTypes.func.isRequired,
   value: _react2.default.PropTypes.string
 };
+
+// Veiw (Presentational Components)
 
 var FormInput = function (_React$Component2) {
   _inherits(FormInput, _React$Component2);
@@ -21047,14 +21048,13 @@ var FormInput = function (_React$Component2) {
     key: '_send',
     value: function _send(e) {
       e.preventDefault();
-      this.props.handleSendVal(this.refs.myInput.value.trim());
+      this.props.handleClick(this.refs.myInput.value.trim());
       this.refs.myInput.value = '';
       return;
     }
   }, {
     key: 'render',
     value: function render() {
-      window.console.log(this.props);
       return _react2.default.createElement(
         'form',
         null,
@@ -21072,8 +21072,10 @@ var FormInput = function (_React$Component2) {
 }(_react2.default.Component);
 
 FormInput.propTypes = {
-  handleSendVal: _react2.default.PropTypes.func
+  handleClick: _react2.default.PropTypes.func.isRequired
 };
+
+// Veiw (Presentational Components)
 
 var FormDisplay = function (_React$Component3) {
   _inherits(FormDisplay, _React$Component3);

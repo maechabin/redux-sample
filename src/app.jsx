@@ -5,6 +5,7 @@ import { Provider, connect } from 'react-redux';
 
 // Action Creators
 function send(value) {
+  // Action
   return {
     type: 'SEND',
     value,
@@ -12,10 +13,6 @@ function send(value) {
 }
 
 // Reducer
-const initialState = {
-  value: null,
-};
-
 function formReducer(state, action) {
   switch (action.type) {
     case 'SEND':
@@ -27,34 +24,37 @@ function formReducer(state, action) {
   }
 }
 
-// store
+// Store
+const initialState = {
+  value: null,
+};
 const store = createStore(formReducer, initialState);
 
-// Veiw
+// Veiw (Container Components)
 class FormApp extends React.Component {
   render() {
     return (
       <div>
-        <FormInput handleSendVal={this.props.onClick} />
+        <FormInput handleClick={this.props.onClick} />
         <FormDisplay data={this.props.value} />
       </div>
     );
   }
 }
 FormApp.propTypes = {
-  onClick: React.PropTypes.func,
+  onClick: React.PropTypes.func.isRequired,
   value: React.PropTypes.string,
 };
 
+// Veiw (Presentational Components)
 class FormInput extends React.Component {
   _send(e) {
     e.preventDefault();
-    this.props.handleSendVal(this.refs.myInput.value.trim());
+    this.props.handleClick(this.refs.myInput.value.trim());
     this.refs.myInput.value = '';
     return;
   }
   render() {
-    window.console.log(this.props);
     return (
       <form>
         <input type="text" ref="myInput" defaultValue="" />
@@ -64,9 +64,10 @@ class FormInput extends React.Component {
   }
 }
 FormInput.propTypes = {
-  handleSendVal: React.PropTypes.func,
+  handleClick: React.PropTypes.func.isRequired,
 };
 
+// Veiw (Presentational Components)
 class FormDisplay extends React.Component {
   render() {
     return (
@@ -78,6 +79,7 @@ FormDisplay.propTypes = {
   data: React.PropTypes.string,
 };
 
+// Connect to Redux
 function mapStateToProps(state) {
   window.console.log(state);
   return {
@@ -96,6 +98,7 @@ const AppContainer = connect(
   mapDispatchToProps
 )(FormApp);
 
+// Rendering
 ReactDOM.render(
   <Provider store={store}>
     <AppContainer />
