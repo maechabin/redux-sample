@@ -48,7 +48,7 @@ FormApp.propTypes = {
 
 // Veiw (Presentational Components)
 class FormInput extends React.Component {
-  _send(e) {
+  send(e) {
     e.preventDefault();
     this.props.handleClick(this.refs.myInput.value.trim());
     this.refs.myInput.value = '';
@@ -58,7 +58,7 @@ class FormInput extends React.Component {
     return (
       <form>
         <input type="text" ref="myInput" defaultValue="" />
-        <button onClick={this._send.bind(this)}>Send</button>
+        <button onClick={(event) => this.send(event)}>Send</button>
       </form>
     );
   }

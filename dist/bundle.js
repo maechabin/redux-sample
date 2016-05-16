@@ -20978,6 +20978,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // Action Creators
 function send(value) {
+  // Action
   return {
     type: 'SEND',
     value: value
@@ -21045,8 +21046,8 @@ var FormInput = function (_React$Component2) {
   }
 
   _createClass(FormInput, [{
-    key: '_send',
-    value: function _send(e) {
+    key: 'send',
+    value: function send(e) {
       e.preventDefault();
       this.props.handleClick(this.refs.myInput.value.trim());
       this.refs.myInput.value = '';
@@ -21055,13 +21056,17 @@ var FormInput = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       return _react2.default.createElement(
         'form',
         null,
         _react2.default.createElement('input', { type: 'text', ref: 'myInput', defaultValue: '' }),
         _react2.default.createElement(
           'button',
-          { onClick: this._send.bind(this) },
+          { onClick: function onClick(event) {
+              return _this3.send(event);
+            } },
           'Send'
         )
       );
@@ -21104,6 +21109,7 @@ FormDisplay.propTypes = {
   data: _react2.default.PropTypes.string
 };
 
+// Connect to Redux
 function mapStateToProps(state) {
   window.console.log(state);
   return {
@@ -21119,6 +21125,7 @@ function mapDispatchToProps(dispatch) {
 }
 var AppContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FormApp);
 
+// Rendering
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
