@@ -20976,16 +20976,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/* Actionsの実装 */
+
+// Action名の定義
+var SEND = 'SEND';
+
 // Action Creators
 function send(value) {
   // Action
   return {
-    type: 'SEND',
+    type: SEND,
     value: value
   };
 }
 
-// Reducer
+/* Reducersの実装 */
+
 function formReducer(state, action) {
   switch (action.type) {
     case 'SEND':
@@ -20997,11 +21003,13 @@ function formReducer(state, action) {
   }
 }
 
-// Store
+/* Storeの実装 */
 var initialState = {
   value: null
 };
 var store = (0, _redux.createStore)(formReducer, initialState);
+
+/* Viwの実装 */
 
 // Veiw (Container Components)
 
