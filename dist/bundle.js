@@ -21004,6 +21004,7 @@ function formReducer(state, action) {
 }
 
 /* Storeの実装 */
+
 var initialState = {
   value: null
 };
@@ -21057,8 +21058,8 @@ var FormInput = function (_React$Component2) {
     key: 'send',
     value: function send(e) {
       e.preventDefault();
-      this.props.handleClick(this.refs.myInput.value.trim());
-      this.refs.myInput.value = '';
+      this.props.handleClick(this.myInput.value.trim());
+      this.myInput.value = '';
       return;
     }
   }, {
@@ -21069,7 +21070,9 @@ var FormInput = function (_React$Component2) {
       return _react2.default.createElement(
         'form',
         null,
-        _react2.default.createElement('input', { type: 'text', ref: 'myInput', defaultValue: '' }),
+        _react2.default.createElement('input', { type: 'text', ref: function ref(_ref) {
+            return _this3.myInput = _ref;
+          }, defaultValue: '' }),
         _react2.default.createElement(
           'button',
           { onClick: function onClick(event) {
