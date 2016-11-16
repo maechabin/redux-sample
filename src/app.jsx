@@ -37,9 +37,9 @@ const initialState = {
 };
 const store = createStore(formReducer, initialState);
 
-/* Viwの実装 */
+/* Viewの実装 */
 
-// Veiw (Container Components)
+// View (Container Components)
 class FormApp extends React.Component {
   render() {
     return (
@@ -55,7 +55,7 @@ FormApp.propTypes = {
   value: React.PropTypes.string,
 };
 
-// Veiw (Presentational Components)
+// View (Presentational Components)
 class FormInput extends React.Component {
   send(e) {
     e.preventDefault();
@@ -76,7 +76,7 @@ FormInput.propTypes = {
   handleClick: React.PropTypes.func.isRequired,
 };
 
-// Veiw (Presentational Components)
+// View (Presentational Components)
 class FormDisplay extends React.Component {
   render() {
     return (
