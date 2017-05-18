@@ -38,11 +38,6 @@ $ open ./index.html
 $ npm run build
 ~~~
 
-※browserifyがシステムにインストールされていない場合は、以下コマンドでインストール
-~~~
-$ npm install -g browserify
-~~~
-
 ### 2. サンプルを開く
 ~~~
 $ open ./index.html
